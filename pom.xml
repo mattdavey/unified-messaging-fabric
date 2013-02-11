@@ -11,14 +11,17 @@
     <properties>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
         <scala.version>2.10.0</scala.version>
         <specs.scala.version>2.10</specs.scala.version>
         <specs.version>1.6.9</specs.version>
+        <atmosphere.version>1.0.0</atmosphere.version>
     </properties>
 
     <modules>
         <module>prototypical-service</module>
+        <module>dashboard</module>
     </modules>
 
     <dependencies>
