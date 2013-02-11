@@ -2,10 +2,10 @@ package net.unified
 
 import org.slf4j.LoggerFactory
 import org.apache.zookeeper.KeeperException.ConnectionLossException
-import com.netflix.curator.x.discovery.ServiceInstance
-import com.netflix.curator.x.discovery.details.{JsonInstanceSerializer, ServiceDiscoveryImpl}
+import com.netflix.curator.x.discovery.{ServiceDiscoveryBuilder, ServiceInstance}
 import com.netflix.curator.framework.CuratorFrameworkFactory
 import com.netflix.curator.retry.ExponentialBackoffRetry
+import com.netflix.curator.x.discovery.details.JsonInstanceSerializer
 
 
 object ServiceApp {
@@ -28,7 +28,12 @@ object ServiceApp {
         val retryPolicy = new ExponentialBackoffRetry(1000, 3)
         val zooClient = CuratorFrameworkFactory.newClient(config.zooConnectionString, retryPolicy)
         zooClient.start()
-        val discovery = new ServiceDiscoveryImpl[String](zooClient, "/services", new JsonInstanceSerializer[String](classOf[String]), serviceInstance)
+        val discovery = ServiceDiscoveryBuilder.builder[String](classOf[String])
+          .client(zooClient)
+          .basePath("/services")
+          .serializer(new JsonInstanceSerializer[String](classOf[String]))
+          .thisInstance(serviceInstance)
+          .build()
         discovery.start()
 
         logger.info(s"Service registered: $service.")
