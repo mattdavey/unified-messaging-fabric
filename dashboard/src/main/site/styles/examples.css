@@ -30,7 +30,7 @@ li {
   margin: 0;
 }
 
-#myGrid {
+#myServices, #myGrid {
   background: white;
   outline: 0;
   border: 1px solid gray;

@@ -12,23 +12,24 @@
     <script src="scripts/vendor/jquery/jquery.event.drag-2.2.js"></script>
     <script src="scripts/vendor/slickgrid/slick.core.js"></script>
     <script src="scripts/vendor/slickgrid/slick.grid.js"></script>
-    <script data-main="scripts/main" src="scripts/vendor/require/require.js"></script>
+    <script src="scripts/vendor/slickgrid/slick.dataview.js"></script>
+    <script src="scripts/vendor/underscore/underscore.js"></script>
+    <script src="scripts/vendor/backbone/backbone.js"></script>
+
+    <script src="scripts/vendor/require/require.js"></script>
+    <script>
+        require.config({
+            baseUrl:"/scripts",
+            paths: {
+                "text": "vendor/require/text"
+            }
+        });
+        require(['main']);
+    </script>
 </head>
 
 <body>
-<table width="100%">
-    <tr>
-        <td valign="top" width="50%">
-            <div id="myGrid" style="width:800px;height:500px;"></div>
-        </td>
-        <td valign="top">
-            <h2>Demonstrates:</h2>
-            <ul>
-                <li>Monitoring dashboard for dynamic service registration</li>
-            </ul>
-        </td>
-    </tr>
-</table>
+<div id="page"></div>
 </body>
 
 </html>
