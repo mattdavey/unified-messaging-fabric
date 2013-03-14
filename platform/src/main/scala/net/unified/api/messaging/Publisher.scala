@@ -8,5 +8,6 @@ package net.unified.messaging
  */
 
 trait Publisher {
-  def publish(topic: String, payload: Any)
+
+  def publish[T](topic: String, payload: T)
 }

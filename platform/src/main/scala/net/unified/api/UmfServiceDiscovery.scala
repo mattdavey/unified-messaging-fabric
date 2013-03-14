@@ -1,5 +1,7 @@
 package net.unified.api
 
+import com.netflix.curator.x.discovery.ServiceDiscovery
+
 /**
  * Created with IntelliJ IDEA.
  * User: eprystupa
@@ -7,7 +9,7 @@ package net.unified.api
  * Time: 4:58 PM
  */
 
-trait UmfServiceDiscovery {
+trait UmfServiceDiscovery extends ServiceDiscovery[ServiceInfo] {
 
 
 }

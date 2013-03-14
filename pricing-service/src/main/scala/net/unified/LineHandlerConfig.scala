@@ -5,6 +5,6 @@ package net.unified
  * User: eprystupa
  * Date: 3/14/13
  * Time: 9:16 AM
- * To change this template use File | Settings | File Templates.
  */
-case class LineHandlerConfig()
+
+case class LineHandlerConfig(id: String, symbols: List[String])

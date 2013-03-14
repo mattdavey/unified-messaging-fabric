@@ -1,5 +1,7 @@
 package net.unified.messaging
 
+import rx.{Observer, Subscription}
+
 /**
  * Created with IntelliJ IDEA.
  * User: eprystupa
@@ -8,5 +10,5 @@ package net.unified.messaging
  */
 
 trait Consumer {
-  def subscribe(topic: String, handler: Any): Unit
+  def subscribe[T](topic: String, observer: Observer[T]): Subscription
 }

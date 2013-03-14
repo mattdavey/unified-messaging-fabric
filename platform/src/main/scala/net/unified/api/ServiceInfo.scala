@@ -7,4 +7,4 @@ package net.unified.api
  * Time: 5:05 PM
  */
 
-case class ServiceInfo(id: String, address: String)
+case class ServiceInfo(topics: List[ServiceTopic]) extends Serializable
