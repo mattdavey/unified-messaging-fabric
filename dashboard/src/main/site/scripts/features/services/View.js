@@ -21,15 +21,13 @@ define(['text!./View.html'], function (template) {
             this.$el.html(this._template());
 
             var columns = [
-                {id: "name", name: "Name", field: "name"},
                 {id: "id", name: "ID", field: "id"},
                 {id: "address", name: "Address", field: "address"},
                 {id: "payload", name: "Topics", field: "payload", formatter: function (row, cell, value, columnDef, dataContext) {
-                    return '<a href="#/services/' + dataContext['id'] + '/">Configure</a>'
+                    return '<a href="#/services/' + dataContext['id'] + '">Configure</a>'
                 }},
-                {id: "registrationTimeUTC", name: "Registered", field: "registrationTimeUTC"},
-                {id: "serviceType", name: "Service Type", field: "serviceType"},
-                {id: "uriSpec", name: "URI Spec", field: "uriSpec"}
+                {id: "registrationTime", name: "Registered", field: "registrationTime", width: 225},
+                {id: "serviceType", name: "Service Type", field: "serviceType"}
             ];
 
             var options = {enableColumnReorder: false};

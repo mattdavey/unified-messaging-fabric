@@ -31,8 +31,8 @@ object DashboardModule extends AbstractModule {
 
       val http = webServerProvider.create(vertx)
       val socket = vertx.createSockJSServer(http)
-      socket.installApp(new JsonObject().putString("prefix", "/subscription/services"), services)
-      socket.installApp(new JsonObject().putString("prefix", "/subscription/data"), topics)
+      socket.installApp(new JsonObject().putString("prefix", "/realtime/services"), services)
+      socket.installApp(new JsonObject().putString("prefix", "/realtime/data"), topics)
 
       http
     }

@@ -17,7 +17,7 @@ define(['reconnecting-websocket'], function (Socket) {
 
             this._data.setItems([], "topic");
 
-            var sock = Socket.create('http://localhost:8080/subscription/data');
+            var sock = Socket.create('http://localhost:8080/realtime/data');
 
             sock.onopen = function () {
                 console.log('open');

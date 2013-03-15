@@ -12,7 +12,7 @@ define(['reconnecting-websocket'], function (Socket) {
         initialize: function () {
 
             var self = this;
-            var sock = Socket.create('http://localhost:8080/subscription/services');
+            var sock = Socket.create('http://localhost:8080/realtime/services');
 
             sock.onopen = function () {
                 console.log('open');
@@ -21,7 +21,9 @@ define(['reconnecting-websocket'], function (Socket) {
             sock.onmessage = function (e) {
                 console.log('message', e.data);
                 var event = JSON.parse(e.data);
-                var rows = event.payload;
+                var rows = event.payload.map(function (row) {
+                    return _.extend({registrationTime: new Date(row.registrationTimeUTC)}, row);
+                });
 
                 self.reset(rows);
             };
