@@ -6,6 +6,7 @@ import com.netflix.curator.x.discovery.ServiceInstance
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.core.`type`.TypeReference
 
 
 /**
@@ -24,6 +25,6 @@ class JsonServiceInfoSerializer extends InstanceSerializer[ServiceInfo] {
   }
 
   def deserialize(bytes: Array[Byte]): ServiceInstance[ServiceInfo] = {
-    mapper.readValue(bytes, classOf[ServiceInstance[ServiceInfo]])
+    mapper.readValue(bytes, new TypeReference[ServiceInstance[ServiceInfo]] {})
   }
 }

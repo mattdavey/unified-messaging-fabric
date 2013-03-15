@@ -12,7 +12,7 @@ define(['reconnecting-websocket'], function (Socket) {
         initialize: function () {
 
             var self = this;
-            var sock = Socket.create('http://localhost:8080/services');
+            var sock = Socket.create('http://localhost:8080/subscription/services');
 
             sock.onopen = function () {
                 console.log('open');

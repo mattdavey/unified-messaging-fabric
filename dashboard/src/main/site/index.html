@@ -15,11 +15,29 @@
     <script src="scripts/vendor/slickgrid/slick.dataview.js"></script>
     <script src="scripts/vendor/underscore/underscore.js"></script>
     <script src="scripts/vendor/backbone/backbone.js"></script>
+    <script src="scripts/vendor/rivets/rivets.min.js"></script>
 
     <script src="scripts/vendor/require/require.js"></script>
     <script>
+        rivets.configure({
+            adapter: {
+                subscribe: function (obj, keypath, callback) {
+                    obj.on('change:' + keypath, callback)
+                },
+                unsubscribe: function (obj, keypath, callback) {
+                    obj.off('change:' + keypath, callback)
+                },
+                read: function (obj, keypath) {
+                    return obj.get(keypath)
+                },
+                publish: function (obj, keypath, value) {
+                    obj.set(keypath, value)
+                }
+            }
+        });
+
         require.config({
-            baseUrl:"/scripts",
+            baseUrl: "/scripts",
             paths: {
                 "text": "vendor/require/text"
             }
@@ -29,6 +47,7 @@
 </head>
 
 <body>
+<div id="nav"></div>
 <div id="page"></div>
 </body>
 

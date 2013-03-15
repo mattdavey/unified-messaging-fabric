@@ -17,7 +17,7 @@ define(['reconnecting-websocket'], function (Socket) {
 
             this._data.setItems([], "topic");
 
-            var sock = Socket.create('http://localhost:8080/topics');
+            var sock = Socket.create('http://localhost:8080/subscription/data');
 
             sock.onopen = function () {
                 console.log('open');
@@ -27,7 +27,7 @@ define(['reconnecting-websocket'], function (Socket) {
             };
 
             sock.onmessage = function (e) {
-                console.log('message', e.data);
+//                console.log('message', e.data);
                 var update = JSON.parse(e.data);
 
                 var id = update.topic;

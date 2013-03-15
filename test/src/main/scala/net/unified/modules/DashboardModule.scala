@@ -5,8 +5,8 @@ import org.vertx.java.core.http.HttpServer
 import org.vertx.java.core.Vertx
 import com.google.inject.name.Names
 import org.vertx.java.core.json.JsonObject
-import net.unified.DashboardWebServer
 import net.unified.subscriptions.{TopicListSubscription, ServiceCacheSubscription}
+import net.unified.DashboardWebServer
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,14 +24,15 @@ object DashboardModule extends AbstractModule {
 
 
   private class DashboardWebServerProvider @Inject()(vertx: Vertx,
+                                                     webServerProvider: DashboardWebServer,
                                                      services: ServiceCacheSubscription,
                                                      topics: TopicListSubscription) extends Provider[HttpServer] {
     def get(): HttpServer = {
 
-      val http = DashboardWebServer.create(vertx)
+      val http = webServerProvider.create(vertx)
       val socket = vertx.createSockJSServer(http)
-      socket.installApp(new JsonObject().putString("prefix", "/services"), services)
-      socket.installApp(new JsonObject().putString("prefix", "/topics"), topics)
+      socket.installApp(new JsonObject().putString("prefix", "/subscription/services"), services)
+      socket.installApp(new JsonObject().putString("prefix", "/subscription/data"), topics)
 
       http
     }
