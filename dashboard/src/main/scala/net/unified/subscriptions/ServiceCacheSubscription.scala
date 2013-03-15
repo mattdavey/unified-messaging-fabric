@@ -1,6 +1,5 @@
-package net.unified
+package net.unified.subscriptions
 
-import api.ServiceInfo
 import org.vertx.java.core.Handler
 import org.vertx.java.core.sockjs.SockJSSocket
 import com.netflix.curator.x.discovery.ServiceDiscovery
@@ -11,7 +10,7 @@ import com.netflix.curator.framework.state.ConnectionState
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.inject.Inject
-
+import net.unified.api.ServiceInfo
 
 /**
  * Created with IntelliJ IDEA.

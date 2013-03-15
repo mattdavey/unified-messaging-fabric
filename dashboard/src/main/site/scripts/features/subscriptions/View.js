@@ -10,10 +10,23 @@ define(['text!./View.html'], function (template) {
     return Backbone.View.extend({
 
         _template: _.template(template),
-        _rows: new Slick.Data.DataView(),
 
         initialize: function () {
-            this.collection.on('reset', this._renderGrid, this);
+            var self = this;
+            this._rows = this.collection.data();
+
+            this._onRowCountChanged = function (e, args) {
+                self._grid.updateRowCount();
+                self._grid.render();
+            };
+
+            this._onRowsChanged = function (e, args) {
+                self._grid.invalidateRows(args.rows);
+                self._grid.render();
+            };
+
+            this._rows.onRowCountChanged.subscribe(this._onRowCountChanged);
+            this._rows.onRowsChanged.subscribe(this._onRowsChanged);
         },
 
         render: function () {
@@ -28,13 +41,17 @@ define(['text!./View.html'], function (template) {
 
             var options = {enableColumnReorder: false};
             this._grid = new Slick.Grid("#myGrid", this._rows, columns, options);
-            this._renderGrid();
+            this._grid.invalidate();
+
+            return this;
         },
 
-        _renderGrid: function () {
-            var rows = this.collection.toJSON();
-            this._rows.setItems(rows);
-            this._grid.invalidate();
+        remove: function () {
+            this._rows.onRowCountChanged.unsubscribe(this._onRowCountChanged);
+            this._rows.onRowsChanged.unsubscribe(this._onRowsChanged);
+
+            Backbone.View.prototype.remove.apply(this, arguments);
         }
+
     });
 });

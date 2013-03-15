@@ -8,6 +8,7 @@ import com.netflix.curator.x.discovery.ServiceDiscoveryBuilder
 import com.netflix.curator.x.discovery.details.JsonInstanceSerializer
 import com.netflix.curator.retry.ExponentialBackoffRetry
 import com.netflix.curator.framework.CuratorFrameworkFactory
+import subscriptions.ServiceCacheSubscription
 
 object DashboardApp extends App {
 

@@ -1,4 +1,4 @@
-package net.unified
+package net.unified.subscriptions
 
 /**
  * Created with IntelliJ IDEA.

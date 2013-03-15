@@ -33,6 +33,8 @@ define(['text!./View.html'], function (template) {
             var options = {enableColumnReorder: false};
             this._grid = new Slick.Grid("#myGrid", this._rows, columns, options);
             this._renderGrid();
+
+            return this;
         },
 
         _renderGrid: function () {

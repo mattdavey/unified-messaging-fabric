@@ -8,6 +8,9 @@ define(['features/services/View', 'features/services/Collection', './features/su
     function (ServicesView, ServicesCollection, SubscriptionsView, SubscriptionsCollection) {
 
         return Backbone.Router.extend({
+
+            _page: null,
+
             routes: {
                 "": "services",
                 "services": "services",
@@ -18,17 +21,20 @@ define(['features/services/View', 'features/services/Collection', './features/su
             _subscriptions: new SubscriptionsCollection(),
 
             services: function () {
-                new ServicesView({
-                    el: '#page',
-                    collection: this._services
-                }).render();
+                this._show(ServicesView, {collection: this._services});
             },
 
             subscriptions: function () {
-                new SubscriptionsView({
-                    el: '#page',
-                    collection: this._subscriptions
-                }).render();
+
+                this._subscriptions.add({topic: 'USD/CAD'});
+                this._show(SubscriptionsView, {collection: this._subscriptions});
+            },
+
+            _show: function (View, options) {
+                if (this._page) this._page.remove();
+                this._page = new View(_.extend({}, options));
+                $("#page").append(this._page.el);
+                this._page.render();
             }
         });
     });
