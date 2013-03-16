@@ -15,7 +15,7 @@ import collection.JavaConversions._
 
 class ServiceDetailsHandler @Inject()(discovery: ServiceDiscovery[ServiceInfo]) {
 
-  def apply(id: String): Option[ServiceInfo] = {
+  def get(id: String): Option[ServiceInfo] = {
 
     val cache = discovery.serviceCacheBuilder().name("umf-service").build()
     cache.start()
