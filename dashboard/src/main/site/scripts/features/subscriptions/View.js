@@ -15,7 +15,7 @@ define(['text!./View.html', './Subscription'], function (template, Subscription)
         initialize: function () {
             var self = this;
 
-            this._onRowCountChanged = function (e, args) {
+            this._onRowCountChanged = function () {
                 self._grid.updateRowCount();
                 self._grid.render();
             };
@@ -64,6 +64,8 @@ define(['text!./View.html', './Subscription'], function (template, Subscription)
         },
 
         _subscribe: function () {
+            this._subscription.clear();
+
             var items = this.collection.toJSON().map(function (item) {
                 return _.extend({id: this._key(item)}, item);
             }, this);

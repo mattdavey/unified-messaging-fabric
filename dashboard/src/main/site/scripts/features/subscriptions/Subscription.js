@@ -10,14 +10,17 @@ define(['reconnecting-websocket'], function (Socket) {
 
         var topics = [];
         var add = _add;
+        var clear = _clear;
 
         var sock = Socket.create('http://localhost:8080/realtime/data');
         sock.onopen = function () {
-            add = _addAndSend;
-            _.forEach(topics, _send, this);
+            add = _addAndSubscribe;
+            clear = _clearAndUnsubscribe;
+            _.each(topics, _subscribe, this);
         };
         sock.onclose = function () {
             add = _add;
+            clear = _clear;
         };
 
         sock.onmessage = function (e) {
@@ -34,6 +37,10 @@ define(['reconnecting-websocket'], function (Socket) {
             add(serviceTopic);
         };
 
+        this.clear = function () {
+            clear();
+        };
+
         this.dispose = function () {
             sock.close();
         };
@@ -43,14 +50,31 @@ define(['reconnecting-websocket'], function (Socket) {
             topics.push(serviceTopic);
         }
 
-        function _send(serviceTopic) {
-            var command = _.omit(_.extend({sub: true}, serviceTopic), "id");
+        function _subscribe(serviceTopic) {
+            _send(serviceTopic, true);
+        }
+
+        function _unsubscribe(serviceTopic) {
+            _send(serviceTopic, false);
+        }
+
+        function _send(serviceTopic, sub) {
+            var command = _.omit(_.extend({sub: sub}, serviceTopic), "id");
             sock.send(JSON.stringify(command));
         }
 
-        function _addAndSend(serviceTopic) {
+        function _addAndSubscribe(serviceTopic) {
             _add(serviceTopic);
-            _send(serviceTopic);
+            _subscribe(serviceTopic);
+        }
+
+        function _clear() {
+            topics.length = 0;
+        }
+
+        function _clearAndUnsubscribe() {
+            _.forEach(topics, _unsubscribe, this);
+            topics.length = 0;
         }
 
     };
