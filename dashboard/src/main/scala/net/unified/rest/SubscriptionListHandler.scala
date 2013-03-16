@@ -1,6 +1,6 @@
 package net.unified.rest
 
-import net.unified.rest.SubscriptionListHandler.TopicSubscription
+import net.unified.rest.SubscriptionListHandler.ServiceTopic
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,21 +11,21 @@ import net.unified.rest.SubscriptionListHandler.TopicSubscription
 
 object SubscriptionListHandler {
 
-  case class TopicSubscription(id: String, topic: String)
+  case class ServiceTopic(service: String, topic: String)
 
 }
 
 class SubscriptionListHandler {
 
-  private var subscriptions: Set[TopicSubscription] = Set.empty
+  private var subscriptions: Set[ServiceTopic] = Set(ServiceTopic("360T", "USD/JPY"))
 
   def get() = Some(subscriptions)
 
-  def put(subscription: TopicSubscription) {
+  def put(subscription: ServiceTopic) {
     subscriptions = subscriptions + subscription
   }
 
-  def del(subscription: TopicSubscription) {
+  def del(subscription: ServiceTopic) {
     subscriptions = subscriptions - subscription
   }
 }

@@ -21,7 +21,6 @@ define(['features/nav/View',
             },
 
             _services: new ServicesCollection(),
-            _subscriptions: new SubscriptionsCollection(),
 
             services: function () {
                 this._show("services", ServicesView, {collection: this._services});
@@ -29,8 +28,9 @@ define(['features/nav/View',
 
             subscriptions: function () {
 
-                this._subscriptions.add({topic: 'USD/CAD'});
-                this._show("subscriptions", SubscriptionsView, {collection: this._subscriptions});
+                var collection = new SubscriptionsCollection();
+                collection.fetch();
+                this._show("subscriptions", SubscriptionsView, {collection: collection});
             },
 
             service: function (id) {
@@ -45,7 +45,7 @@ define(['features/nav/View',
                 var nav = new NavView();
                 $('#nav').empty().append(nav.el);
                 nav.render();
-                nav.$("." + page).addClass("selected")
+                nav.$("." + page).addClass("selected");
 
                 this._page = new View(_.extend({}, options));
                 $("#page").append(this._page.el);

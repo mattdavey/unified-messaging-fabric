@@ -19,9 +19,9 @@ import net.unified.subscriptions.TopicListSubscription.Update
 
 object TopicListSubscription {
 
-  case class Command(topic: String, sub: Boolean)
+  case class Command(service: String, topic: String, sub: Boolean)
 
-  case class Update(topic: String, value: Any)
+  case class Update(service: String, topic: String, value: Any)
 
 }
 
@@ -43,26 +43,26 @@ class TopicListSubscription @Inject()(consumer: Consumer) extends Handler[SockJS
       val command = mapper.readValue(event.getBytes, classOf[TopicListSubscription.Command])
       command match {
 
-        case TopicListSubscription.Command(topic, true) => {
+        case TopicListSubscription.Command(service, topic, true) => {
 
-          val subscription = consumer.subscribe(topic, new TopicPublisher(topic))
+          val subscription = consumer.subscribe(topic, new TopicPublisher(service, topic))
           subscriptions = subscriptions updated(topic, subscription)
         }
 
-        case TopicListSubscription.Command(topic, false) => {
+        case TopicListSubscription.Command(service, topic, false) => {
           subscriptions.get(topic).foreach(_.unsubscribe())
           subscriptions = subscriptions - topic
         }
       }
     }
 
-    private class TopicPublisher(topic: String) extends Observer[Any] {
+    private class TopicPublisher(service: String, topic: String) extends Observer[Any] {
       def onCompleted() {}
 
       def onError(e: Exception) {}
 
       def onNext(args: Any) {
-        val bytes = mapper.writeValueAsBytes(Update(topic, args))
+        val bytes = mapper.writeValueAsBytes(Update(service, topic, args))
         socket.writeBuffer(new Buffer(bytes))
       }
     }

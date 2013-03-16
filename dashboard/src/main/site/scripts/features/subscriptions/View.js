@@ -5,15 +5,15 @@
  * Time: 2:57 PM
  */
 
-define(['text!./View.html'], function (template) {
+define(['text!./View.html', './Subscription'], function (template, Subscription) {
 
     return Backbone.View.extend({
 
         _template: _.template(template),
+        _rows: new Slick.Data.DataView(),
 
         initialize: function () {
             var self = this;
-            this._rows = this.collection.data();
 
             this._onRowCountChanged = function (e, args) {
                 self._grid.updateRowCount();
@@ -25,8 +25,9 @@ define(['text!./View.html'], function (template) {
                 self._grid.render();
             };
 
-            this._rows.onRowCountChanged.subscribe(this._onRowCountChanged);
-            this._rows.onRowsChanged.subscribe(this._onRowsChanged);
+            this._subscription = new Subscription(this._rows, this._key);
+            this._subscribe();
+            this.collection.on('reset', this._subscribe, this);
         },
 
         render: function () {
@@ -43,15 +44,33 @@ define(['text!./View.html'], function (template) {
             this._grid = new Slick.Grid("#myGrid", this._rows, columns, options);
             this._grid.invalidate();
 
+            this._rows.onRowCountChanged.subscribe(this._onRowCountChanged);
+            this._rows.onRowsChanged.subscribe(this._onRowsChanged);
+
             return this;
         },
 
         remove: function () {
+            this._subscription.dispose();
+
             this._rows.onRowCountChanged.unsubscribe(this._onRowCountChanged);
             this._rows.onRowsChanged.unsubscribe(this._onRowsChanged);
 
             Backbone.View.prototype.remove.apply(this, arguments);
-        }
+        },
 
+        _key: function (item) {
+            return item.service + "." + item.topic;
+        },
+
+        _subscribe: function () {
+            var items = this.collection.toJSON().map(function (item) {
+                return _.extend({id: this._key(item)}, item);
+            }, this);
+
+            this._rows.setItems(items);
+
+            _.forEach(items, this._subscription.add, this);
+        }
     });
 });
