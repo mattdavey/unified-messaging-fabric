@@ -5,7 +5,7 @@
  * Time: 2:57 PM
  */
 
-define(['text!./View.html', './Subscription'], function (template, Subscription) {
+define(['text!./View.html', './Subscription', '../../formatters/ServiceLinkFormatter'], function (template, Subscription, ServiceLinkFormatter) {
 
     return Backbone.View.extend({
 
@@ -35,7 +35,7 @@ define(['text!./View.html', './Subscription'], function (template, Subscription)
             this.$el.html(this._template());
 
             var columns = [
-                {id: "service", name: "Service", field: "service"},
+                {id: "service", name: "Service", field: "service", formatter: ServiceLinkFormatter.create()},
                 {id: "topic", name: "Topic", field: "topic"},
                 {id: "value", name: "Value", field: "value"}
             ];

@@ -5,7 +5,7 @@
  * Time: 2:57 PM
  */
 
-define(['text!./View.html'], function (template) {
+define(['text!./View.html', '../../formatters/ServiceLinkFormatter'], function (template, ServiceLinkFormatter) {
 
     return Backbone.View.extend({
 
@@ -21,11 +21,9 @@ define(['text!./View.html'], function (template) {
             this.$el.html(this._template());
 
             var columns = [
-                {id: "id", name: "ID", field: "id"},
+                {id: "id", name: "ID", field: "id", formatter: ServiceLinkFormatter.create()},
                 {id: "address", name: "Address", field: "address"},
-                {id: "payload", name: "Topics", field: "payload", formatter: function (row, cell, value, columnDef, dataContext) {
-                    return '<a href="#/services/' + dataContext['id'] + '">Configure</a>'
-                }},
+                {id: "payload", name: "Topics", field: "payload", formatter: ServiceLinkFormatter.create({id: "id", text: "Configure"})},
                 {id: "registrationTime", name: "Registered", field: "registrationTime", width: 225},
                 {id: "serviceType", name: "Service Type", field: "serviceType"}
             ];

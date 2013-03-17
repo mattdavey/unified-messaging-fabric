@@ -5,7 +5,7 @@
  * Time: 2:42 PM
  */
 define(['features/nav/View',
-    'features/services/View', 'features/services/Collection', './features/subscriptions/View', './features/subscriptions/Collection',
+    'features/services/View', 'features/services/Collection', './features/subscriptions/View', './collections/Subscriptions',
     'features/service/View', 'features/service/Model'],
     function (NavView, ServicesView, ServicesCollection, SubscriptionsView, SubscriptionsCollection, ServiceView, ServiceModel) {
 
