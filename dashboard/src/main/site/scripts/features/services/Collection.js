@@ -5,7 +5,7 @@
  * Time: 3:00 PM
  */
 
-define(['reconnecting-websocket'], function (Socket) {
+define(['../../communications/reconnecting-websocket'], function (Socket) {
 
     return Backbone.Collection.extend({
 

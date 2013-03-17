@@ -5,7 +5,7 @@
  * Time: 9:20 PM
  */
 
-define(['reconnecting-websocket'], function (Socket) {
+define(['../../communications/reconnecting-websocket'], function (Socket) {
     return function (dataView, keyFactory) {
 
         var topics = [];

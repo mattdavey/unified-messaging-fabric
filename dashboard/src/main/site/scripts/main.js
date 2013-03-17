@@ -7,6 +7,6 @@
 
 define(['./ApplicationRouter'], function (ApplicationRouter) {
 
-    var router = new ApplicationRouter();
+    new ApplicationRouter();
     Backbone.history.start();
 });
