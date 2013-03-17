@@ -14,14 +14,14 @@ define(['text!./View.html', 'text!./TopicView.html'], function (template, topicT
 
         initialize: function () {
             this._modelBinder = new Backbone.ModelBinder();
-            var elManagerFactory = new Backbone.CollectionBinder.ElManagerFactory(this._topicTemplate(), "data-name");
-            this._collectionBinder = new Backbone.CollectionBinder(elManagerFactory);
+            this._collectionBinder = new Backbone.CollectionBinder(new Backbone.CollectionBinder.ElManagerFactory(this._topicTemplate(), "data-name"));
 
             this.model.get('topics').on('change:sub', this._onChangeSub, this);
         },
 
         render: function () {
 
+            this._unbindView();
             this.$el.html(this._template());
 
             this._modelBinder.bind(this.model, this.el, Backbone.ModelBinder.createDefaultBindings(this.el, "data-name"));
@@ -33,10 +33,13 @@ define(['text!./View.html', 'text!./TopicView.html'], function (template, topicT
         remove: function () {
 
             this.model.get('topics').off('change:sub', this._onChangeSub, this);
+            this._unbindView();
+            Backbone.View.prototype.remove.apply(this, arguments);
+        },
+
+        _unbindView: function () {
             this._modelBinder.unbind();
             this._collectionBinder.unbind();
-
-            Backbone.View.prototype.remove.apply(this, arguments);
         },
 
         _onChangeSub: function (topic) {
