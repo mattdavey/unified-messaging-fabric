@@ -5,11 +5,9 @@
  * Time: 2:58 PM
  */
 
-define(function () {
+define([], function () {
 
-    var ServiceModel = Backbone.Model.extend({
+    return Backbone.Model.extend({
 
     });
-
-    return ServiceModel;
 });

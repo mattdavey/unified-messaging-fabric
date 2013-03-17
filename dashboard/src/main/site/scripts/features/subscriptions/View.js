@@ -67,7 +67,7 @@ define(['text!./View.html', './Subscription'], function (template, Subscription)
             this._subscription.clear();
 
             var items = this.collection.toJSON().map(function (item) {
-                return _.extend({id: this._key(item)}, item);
+                return _.extend({}, item, {id: this._key(item)});
             }, this);
 
             this._rows.setItems(items);

@@ -1,6 +1,7 @@
 package net.unified.rest
 
-import net.unified.rest.SubscriptionListHandler.ServiceTopic
+import net.unified.rest.SubscriptionListHandler.{Id, ServiceTopic}
+import java.util.UUID
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,21 +12,25 @@ import net.unified.rest.SubscriptionListHandler.ServiceTopic
 
 object SubscriptionListHandler {
 
-  case class ServiceTopic(service: String, topic: String)
+  case class ServiceTopic(id: String, service: String, topic: String)
+
+  case class Id(id: String)
 
 }
 
 class SubscriptionListHandler {
 
-  private var subscriptions: Set[ServiceTopic] = Set(ServiceTopic("360T", "USD/JPY"))
+  private var subscriptions: Map[String, ServiceTopic] = Map()
 
-  def get() = Some(subscriptions)
+  def get(): Option[Iterable[ServiceTopic]] = Some(subscriptions.values)
 
-  def put(subscription: ServiceTopic) {
-    subscriptions = subscriptions + subscription
+  def post(subscription: ServiceTopic): Id = {
+    val id = UUID.randomUUID().toString
+    subscriptions = subscriptions + (id -> subscription.copy(id = id))
+    Id(id)
   }
 
-  def del(subscription: ServiceTopic) {
-    subscriptions = subscriptions - subscription
+  def del(id: String) {
+    subscriptions = subscriptions - id
   }
 }

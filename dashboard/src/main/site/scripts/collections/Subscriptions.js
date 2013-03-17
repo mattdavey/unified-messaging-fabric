@@ -9,15 +9,8 @@ define([], function () {
 
     return Backbone.Collection.extend({
 
-        _filter: "",
-
         url: function () {
-            return "/subscriptions" + this._filter;
-        },
-
-        withService: function (service) {
-            this._filter = "/services/" + service;
-            return this;
+            return "/subscriptions";
         }
     });
 });
