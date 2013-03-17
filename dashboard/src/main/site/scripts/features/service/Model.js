@@ -31,7 +31,7 @@ define(['../../collections/Services', '../../collections/Subscriptions'], functi
             if (topic.attributes.sub)
                 this._subscriptions.create(_.omit(topic.toJSON(), 'sub'), {wait: true});
             else
-                this._subscriptions.get(topic.id).destroy({wait: true});
+                this._subscriptions.get(topic.id).destroy();
         },
 
         _update: function () {
