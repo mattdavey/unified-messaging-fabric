@@ -28,10 +28,23 @@ class PricingService @Inject()(discoveryBuilder: UmfServiceDiscoveryBuilder,
 
     Executors.newScheduledThreadPool(1).scheduleWithFixedDelay(new Runnable {
       private val rnd = new Random()
+      private var prices = config.symbols.map((_, BigDecimal(rnd.nextDouble() * 100))).toMap
 
       def run() {
-        config.symbols.foreach(s => publisher.publish(s, rnd.nextDouble() * 100))
+
+        config.symbols.foreach(symbol => {
+          val skip = rnd.nextBoolean()
+          if (!skip) {
+            val rndWalk = BigDecimal(rnd.nextDouble() * 0.01 * (if (rnd.nextBoolean()) 1.0 else -1.0))
+            val prevPrice = prices(symbol)
+            val price = (prevPrice + rndWalk).setScale(4, BigDecimal.RoundingMode.HALF_UP)
+            prices = prices updated(symbol, price)
+
+            val topic = config.id + "." + symbol
+            publisher.publish(topic, price)
+          }
+        })
       }
-    }, 3000, 500, TimeUnit.MILLISECONDS)
+    }, 3000, 250, TimeUnit.MILLISECONDS)
   }
 }
