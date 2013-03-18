@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import net.unified.messaging.Consumer
 import rx.{Subscription, Observer}
 import com.google.inject.Inject
-import net.unified.subscriptions.TopicListSubscription.Update
+import net.unified.subscriptions.ServiceSubscription.Update
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,15 +17,15 @@ import net.unified.subscriptions.TopicListSubscription.Update
  * Time: 5:41 PM
  */
 
-object TopicListSubscription {
+object ServiceSubscription {
 
-  case class Command(service: String, topic: String, sub: Boolean)
+  case class Request(service: String, topic: String, sub: Boolean)
 
   case class Update(service: String, topic: String, value: Any)
 
 }
 
-class TopicListSubscription @Inject()(consumer: Consumer) extends Handler[SockJSSocket] {
+class ServiceSubscription @Inject()(consumer: Consumer) extends Handler[SockJSSocket] {
 
   private var subscriptions = Map.empty[String, Subscription]
   private val mapper = new ObjectMapper()
@@ -40,18 +40,17 @@ class TopicListSubscription @Inject()(consumer: Consumer) extends Handler[SockJS
   private class DataHandler(socket: SockJSSocket) extends Handler[Buffer] {
 
     def handle(event: Buffer) {
-      val command = mapper.readValue(event.getBytes, classOf[TopicListSubscription.Command])
-      command match {
+      val ServiceSubscription.Request(service, topic, subscribe) = mapper.readValue(event.getBytes, classOf[ServiceSubscription.Request])
+      val umfTopic = service + "." + topic
 
-        case TopicListSubscription.Command(service, topic, true) => {
-
-          val subscription = consumer.subscribe(topic, new TopicPublisher(service, topic))
-          subscriptions = subscriptions updated(topic, subscription)
+      subscribe match {
+        case true => {
+          val subscription = consumer.subscribe(umfTopic, new TopicPublisher(service, topic))
+          subscriptions = subscriptions updated(umfTopic, subscription)
         }
-
-        case TopicListSubscription.Command(service, topic, false) => {
-          subscriptions.get(topic).foreach(_.unsubscribe())
-          subscriptions = subscriptions - topic
+        case false => {
+          subscriptions.get(umfTopic).foreach(_.unsubscribe())
+          subscriptions = subscriptions - umfTopic
         }
       }
     }

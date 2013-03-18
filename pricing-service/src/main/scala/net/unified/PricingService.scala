@@ -37,7 +37,8 @@ class PricingService @Inject()(discoveryBuilder: UmfServiceDiscoveryBuilder,
           if (!skip) {
             val rndWalk = BigDecimal(rnd.nextDouble() * 0.01 * (if (rnd.nextBoolean()) 1.0 else -1.0))
             val prevPrice = prices(symbol)
-            val price = (prevPrice + rndWalk).setScale(4, BigDecimal.RoundingMode.HALF_UP)
+            val walkedPrice = (prevPrice + rndWalk).setScale(4, BigDecimal.RoundingMode.HALF_UP)
+            val price = if (walkedPrice < 0) BigDecimal(0) else walkedPrice
             prices = prices updated(symbol, price)
 
             val topic = config.id + "." + symbol

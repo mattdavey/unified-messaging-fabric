@@ -19,7 +19,6 @@ define(['../../communications/reconnecting-websocket'], function (Socket) {
             };
 
             sock.onmessage = function (e) {
-                console.log('message', e.data);
                 var event = JSON.parse(e.data);
                 var rows = event.payload.map(function (row) {
                     return _.extend({registrationTime: new Date(row.registrationTimeUTC)}, row);
