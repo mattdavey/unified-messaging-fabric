@@ -5,13 +5,8 @@ import modules._
 import zoo.ZooServer
 import org.vertx.java.core.http.HttpServer
 import com.google.inject.name.Names
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
 
 object TestApp extends App {
-
-  val mapper = new ObjectMapper()
-  mapper.registerModule(DefaultScalaModule)
 
   val injector = Guice.createInjector(
     ConnectionStringModule,
