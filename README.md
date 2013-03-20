@@ -17,3 +17,7 @@ The above will build the prototype and run all unit tests.
     cd test
     mvn exec:java
 
+## Explore
+Navigate to UMF Dashboard in a browser
+
+    http://localhost:8080
