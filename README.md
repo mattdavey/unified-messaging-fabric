@@ -1,7 +1,7 @@
 unified-messaging-fabric
 ========================
 
-PoC
+
 
 # Setting up development environment
 
@@ -19,5 +19,6 @@ The above will build the prototype and run all unit tests.
 
 ## Run
 
-    mvn exec:exec -Prun-fix-server
+    cd test
+    mvn exec:java
 
