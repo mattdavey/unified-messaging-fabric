@@ -4,7 +4,7 @@
 First use [git](http://git-scm.com/) to clone this repo:
 
     git clone https://github.com/prystupa/unified-messaging-fabric.git
-    cd unified-messagin-fabric
+    cd unified-messaging-fabric
 
 ## Build
 UMF is built with [Maven](http://maven.apache.org/).
