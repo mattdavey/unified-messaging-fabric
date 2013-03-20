@@ -5,6 +5,7 @@ import org.apache.zookeeper.server.{ServerCnxnFactory, ZooKeeperServer}
 import java.net.InetSocketAddress
 import com.google.inject.Inject
 import com.google.inject.name.Named
+import org.slf4j.LoggerFactory
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,25 +16,27 @@ import com.google.inject.name.Named
 
 class ZooServer @Inject()(@Named("zoo-bind") bindAddress: InetSocketAddress) {
 
-  val numConnections = 5000
-  val tickTime = 2000
+  private val logger = LoggerFactory.getLogger(classOf[ZooServer])
+  private val numConnections = 5000
+  private val tickTime = 2000
 
 
   val dataDirectory = System.getProperty("java.io.tmpdir")
 
-  val dir = new File(dataDirectory, "zookeeper").getAbsoluteFile()
+  val dir = new File(dataDirectory, "zookeeper").getAbsoluteFile
 
   val zkServer: ZooKeeperServer = new ZooKeeperServer(dir, dir, tickTime)
 
-  val cnxnFactory = ServerCnxnFactory.createFactory
-  cnxnFactory.configure(bindAddress, numConnections)
+  val connectionFactory = ServerCnxnFactory.createFactory
+  connectionFactory.configure(bindAddress, numConnections)
 
   def startup() {
-    cnxnFactory.startup(zkServer)
+    logger.info("Starting embedded ZooKeeper server on port {}", bindAddress.getPort)
+    connectionFactory.startup(zkServer)
   }
 
   def shutdown() {
     zkServer.shutdown()
-    cnxnFactory.shutdown()
+    connectionFactory.shutdown()
   }
 }

@@ -37,7 +37,7 @@ define(['text!./View.html', './Subscription', '../../formatters/ServiceLinkForma
             var columns = [
                 {id: "service", name: "Service", field: "service", formatter: ServiceLinkFormatter.create()},
                 {id: "topic", name: "Topic", field: "topic"},
-                {id: "value", name: "Value", field: "value"}
+                {id: "value", name: "Data", field: "value"}
             ];
 
             var options = {enableColumnReorder: false};

@@ -5,8 +5,12 @@ import modules._
 import zoo.ZooServer
 import org.vertx.java.core.http.HttpServer
 import com.google.inject.name.Names
+import org.slf4j.LoggerFactory
 
 object TestApp extends App {
+  private val logger = LoggerFactory.getLogger(classOf[TestApp])
+
+  logger.info("Starting application using working folder '{}'", System.getProperty("user.dir"))
 
   val injector = Guice.createInjector(
     ConnectionStringModule,
@@ -24,16 +28,19 @@ object TestApp extends App {
   app.run(injector)
 
   zoo.shutdown()
+  System.exit(0)
 }
 
 
 class TestApp {
+  private val logger = LoggerFactory.getLogger(classOf[TestApp])
 
   def run(injector: Injector) {
 
-    // Start dashboard web and push server, available at http://localhost:8080
     val dashboardWeb = injector.getInstance(Key.get(classOf[HttpServer], Names.named("dashboard")))
-    dashboardWeb.listen(8080)
+    val port = 8080
+    logger.info("Starting dashboard web server on port {}", port)
+    dashboardWeb.listen(port)
 
     // Start pricing line handler simulator(s)
     val pricingHandler = injector.getInstance(classOf[PricingService])

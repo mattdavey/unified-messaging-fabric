@@ -96,6 +96,11 @@ li {
     left: 650px;
 }
 
+.slick-cell {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 /* Individual cell styles */
 .slick-cell.task-name {
     font-weight: bold;
@@ -239,5 +244,4 @@ input.editor-checkbox {
     padding: 0;
     border: 0;
 }
-
 

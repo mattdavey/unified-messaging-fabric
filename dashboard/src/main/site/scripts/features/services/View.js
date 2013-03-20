@@ -22,7 +22,7 @@ define(['text!./View.html', '../../formatters/ServiceLinkFormatter'], function (
 
             var columns = [
                 {id: "id", name: "ID", field: "id", formatter: ServiceLinkFormatter.create()},
-                {id: "address", name: "Address", field: "address"},
+                {id: "address", name: "Address", field: "address", width: 90},
                 {id: "payload", name: "Topics", field: "payload", formatter: ServiceLinkFormatter.create({id: "id", text: "Configure"})},
                 {id: "registrationTime", name: "Registered", field: "registrationTime", width: 225},
                 {id: "serviceType", name: "Service Type", field: "serviceType"}

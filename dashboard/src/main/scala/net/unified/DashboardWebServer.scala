@@ -10,6 +10,8 @@ import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import org.vertx.java.core.buffer.Buffer
 import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import com.fasterxml.jackson.core.`type`.TypeReference
+import java.io.File
+import org.slf4j.LoggerFactory
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.core.`type`.TypeReference
 class DashboardWebServer @Inject()(serviceDetails: ServiceDetailsHandler,
                                    subscriptions: SubscriptionListHandler) {
 
+  private val logger = LoggerFactory.getLogger(classOf[DashboardWebServer])
   private val mapper = new ObjectMapper()
   mapper.registerModule(DefaultScalaModule)
 
@@ -33,10 +36,13 @@ class DashboardWebServer @Inject()(serviceDetails: ServiceDetailsHandler,
     routes.post("/subscriptions", RestHandler.post[ServiceTopic](p => subscriptions.post(p), new TypeReference[ServiceTopic] {}))
     routes.delete("/subscriptions/:id", RestHandler.delete("id", id => subscriptions.del(id)))
 
+    val webRoot = System.getProperty("dashboard.web.root")
+    logger.info("Configuring dashboard web server to serve static content from '{}'", new File(webRoot).getCanonicalPath)
     routes.getWithRegEx(".*", new Handler[HttpServerRequest] {
       def handle(request: HttpServerRequest) {
         val file = if (request.uri == "/") "index.html" else request.uri
-        request.response.sendFile(s"dashboard/src/main/site/$file")
+        val path = new File(webRoot, file).toString
+        request.response.sendFile(path)
       }
     })
 

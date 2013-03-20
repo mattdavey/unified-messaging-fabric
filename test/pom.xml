@@ -32,5 +32,23 @@
     <build>
         <sourceDirectory>src/main/scala</sourceDirectory>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+
+                <configuration>
+                    <mainClass>net.unified.TestApp</mainClass>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>dashboard.web.root</key>
+                            <value>../dashboard/src/main/site</value>
+                        </systemProperty>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
