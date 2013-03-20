@@ -18,6 +18,4 @@ The above will build the prototype and run all unit tests.
     mvn exec:java
 
 ## Explore
-Navigate to UMF Dashboard in a browser
-
-    http://localhost:8080
+Navigate to UMF Dashboard in a browser: [http://localhost:8080](http://localhost:8080)
