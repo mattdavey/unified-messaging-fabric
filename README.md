@@ -1,16 +1,12 @@
-unified-messaging-fabric
-========================
-
-
-
 # Setting up development environment
 
-## Build
+## Clone
 First use [git](http://git-scm.com/) to clone this repo:
 
     git clone https://github.com/prystupa/unified-messaging-fabric.git
     cd unified-messagin-fabric
 
+## Build
 UMF is built with [Maven](http://maven.apache.org/).
 
     mvn clean install
@@ -18,7 +14,6 @@ UMF is built with [Maven](http://maven.apache.org/).
 The above will build the prototype and run all unit tests.
 
 ## Run
-
     cd test
     mvn exec:java
 
