@@ -3,11 +3,21 @@ unified-messaging-fabric
 
 PoC
 
-To start UMF services and line handler simulators:
-> cd unified-messaging-fabric
+# Setting up development environment
 
-> mvn install
+## Build
+First use [git](http://git-scm.com/) to clone this repo:
 
-> cd test
+    git clone https://github.com/prystupa/unified-messaging-fabric.git
+    cd unified-messagin-fabric
 
-> mvn java:exec
+UMF is built with [Maven](http://maven.apache.org/).
+
+    mvn clean install
+
+The above will build the prototype and run all unit tests.
+
+## Run
+
+    mvn exec:exec -Prun-fix-server
+
