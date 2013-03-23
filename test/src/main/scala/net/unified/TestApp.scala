@@ -42,12 +42,18 @@ class TestApp {
     logger.info("Starting dashboard web server on port {}", port)
     dashboardWeb.listen(port)
 
-    // Start pricing line handler simulator(s)
+    // Start pricing line handler simulators
     val pricingHandler = injector.getInstance(classOf[PricingService])
     pricingHandler.start(LineHandlerConfig("360T", List("EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "USD/CHF", "USD/CAD")))
     pricingHandler.start(LineHandlerConfig("FXall", List("USD/TRY", "EUR/TRY", "USD/ZAR", "EUR/ZAR", "USD/CNY", "USD/INR", "USD/MXN", "USD/SGD")))
     pricingHandler.start(LineHandlerConfig("Currenex", List("GBP/CAD", "GBP/CHF", "GBP/JPY", "GBP/NZD", "GBP/AUD", "CAD/JPY", "AUD/JPY", "AUD/CAD", "AUD/NZD", "AUD/CHF", "NZD/JPY", "CHF/JPY")))
     pricingHandler.start(LineHandlerConfig("Bloomberg", List("EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "USD/CHF", "USD/CAD", "EUR/CHF", "EUR/JPY", "EUR/GBP", "EUR/CAD", "EUR/AUD", "EUR/NZD")))
+
+    // Start execution venue adapter simulators
+    val executionHandler = injector.getInstance(classOf[ExecutionVenueService])
+    executionHandler.start(ExecutionVenueConfig("Arca (ARCX)"))
+    executionHandler.start(ExecutionVenueConfig("Nasdaq (NSDQ)"))
+    executionHandler.start(ExecutionVenueConfig("New York (NYSE)"))
 
     println("[Enter] to exit...")
     readLine()

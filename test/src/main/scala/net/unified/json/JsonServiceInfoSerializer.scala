@@ -1,12 +1,12 @@
 package net.unified.json
 
 import com.netflix.curator.x.discovery.details.InstanceSerializer
-import net.unified.api.ServiceInfo
 import com.netflix.curator.x.discovery.ServiceInstance
 
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.core.`type`.TypeReference
+import net.unified.api.discovery.ServiceInfo
 
 
 /**

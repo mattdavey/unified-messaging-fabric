@@ -12,6 +12,7 @@ import org.jboss.netty.handler.codec.http.HttpResponseStatus
 import com.fasterxml.jackson.core.`type`.TypeReference
 import java.io.File
 import org.slf4j.LoggerFactory
+import javax.naming.ConfigurationException
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,6 +38,8 @@ class DashboardWebServer @Inject()(serviceDetails: ServiceDetailsHandler,
     routes.delete("/subscriptions/:id", RestHandler.delete("id", id => subscriptions.del(id)))
 
     val webRoot = System.getProperty("dashboard.web.root")
+    if (webRoot == null) throw new ConfigurationException("Specify the site location using dashboard.web.root JVM parameter")
+
     logger.info("Configuring dashboard web server to serve static content from '{}'", new File(webRoot).getCanonicalPath)
     routes.getWithRegEx(".*", new Handler[HttpServerRequest] {
       def handle(request: HttpServerRequest) {

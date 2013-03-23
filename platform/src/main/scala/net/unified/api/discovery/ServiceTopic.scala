@@ -1,4 +1,4 @@
-package net.unified.api
+package net.unified.api.discovery
 
 /**
  * Created with IntelliJ IDEA.

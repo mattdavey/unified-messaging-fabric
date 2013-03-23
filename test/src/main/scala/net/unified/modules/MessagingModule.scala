@@ -1,7 +1,7 @@
 package net.unified.modules
 
 import com.google.inject.AbstractModule
-import net.unified.messaging.{Consumer, Publisher}
+import net.unified.api.messaging.{Consumer, Publisher}
 import net.unified.mock.InMemoryMessageBus
 
 /**

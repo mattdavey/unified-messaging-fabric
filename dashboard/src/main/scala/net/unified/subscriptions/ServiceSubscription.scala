@@ -5,7 +5,7 @@ import org.vertx.java.core.sockjs.SockJSSocket
 import org.vertx.java.core.buffer.Buffer
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import net.unified.messaging.Consumer
+import net.unified.api.messaging.Consumer
 import rx.{Subscription, Observer}
 import com.google.inject.Inject
 import net.unified.subscriptions.ServiceSubscription.Update

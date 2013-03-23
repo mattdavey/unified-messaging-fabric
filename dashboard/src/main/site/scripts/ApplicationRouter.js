@@ -6,7 +6,7 @@
  */
 define(['./features/nav/View',
     './features/services/View', './features/services/Collection',
-    './features/subscriptions/View', './collections/Subscriptions',
+    './features/prices/View', './collections/Subscriptions',
     './features/service/View', './features/service/Model'],
     function (NavView, ServicesView, ServicesCollection, SubscriptionsView, SubscriptionsCollection, ServiceView, ServiceModel) {
 
@@ -17,7 +17,7 @@ define(['./features/nav/View',
             routes: {
                 "": "services",
                 "services(/)": "services",
-                "subscriptions(/)": "subscriptions",
+                "prices(/)": "prices",
                 "services/:id(/)": "service"
             },
 
@@ -27,7 +27,7 @@ define(['./features/nav/View',
                 this._show("services", ServicesView, {collection: this._services});
             },
 
-            subscriptions: function () {
+            prices: function () {
 
                 var collection = new SubscriptionsCollection();
                 collection.fetch();

@@ -1,6 +1,6 @@
 package net.unified.mock
 
-import net.unified.messaging.{Consumer, Publisher}
+import net.unified.api.messaging.{Consumer, Publisher}
 import rx.{Observable, Subscription, Observer}
 import rx.subjects.Subject
 

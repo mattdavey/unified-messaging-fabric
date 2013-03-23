@@ -21,7 +21,8 @@ define(['text!./View.html', '../../formatters/ServiceLinkFormatter'], function (
             this.$el.html(this._template());
 
             var columns = [
-                {id: "id", name: "ID", field: "id", formatter: ServiceLinkFormatter.create()},
+                {id: "type", name: "Type", field: "name"},
+                {id: "id", name: "ID", field: "id", width: 100, formatter: ServiceLinkFormatter.create()},
                 {id: "address", name: "Address", field: "address", width: 90},
                 {id: "payload", name: "Topics", field: "payload", formatter: ServiceLinkFormatter.create({id: "id", text: "Configure"})},
                 {id: "registrationTime", name: "Registered", field: "registrationTime", width: 225},

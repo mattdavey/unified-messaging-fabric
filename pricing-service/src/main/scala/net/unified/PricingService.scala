@@ -1,10 +1,9 @@
 package net.unified
 
-import api.{ServiceTopic, ServiceInfo}
+import api.discovery.{ServiceTopic, ServiceInfo}
 import com.google.inject.Inject
 import discovery.UmfServiceDiscoveryBuilder
-import com.netflix.curator.x.discovery.ServiceInstance
-import net.unified.messaging.Publisher
+import net.unified.api.messaging.Publisher
 import java.util.concurrent.{TimeUnit, Executors}
 import util.Random
 import org.slf4j.LoggerFactory
@@ -45,13 +44,9 @@ class PricingService @Inject()(discoveryBuilder: UmfServiceDiscoveryBuilder,
       }
     }, 3000, 250, TimeUnit.MILLISECONDS)
 
-    logger.info("Registering pricing line handler '{}' with UMF", config.id)
-    val discovery = discoveryBuilder.build()
-    val instance = ServiceInstance.builder[ServiceInfo]()
-      .name("umf-service").id(config.id)
-      .payload(new ServiceInfo(config.symbols.map(s => ServiceTopic(s, snapshot = false))))
-      .build()
-    discovery.registerService(instance)
-
+    logger.info("Registering pricing line handler '{}' with UMF ", config.id)
+    val discovery = discoveryBuilder.buildRegistry()
+    val info = new ServiceInfo(config.symbols.map(s => ServiceTopic(s, snapshot = false)))
+    discovery.registerService("pricing", config.id, info)
   }
 }

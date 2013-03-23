@@ -1,4 +1,4 @@
-package net.unified.messaging
+package net.unified.api.messaging
 
 /**
  * Created with IntelliJ IDEA.

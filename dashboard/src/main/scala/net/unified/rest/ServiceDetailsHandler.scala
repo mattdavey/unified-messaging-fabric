@@ -1,9 +1,8 @@
 package net.unified.rest
 
 import com.google.inject.Inject
-import com.netflix.curator.x.discovery.ServiceDiscovery
-import net.unified.api.ServiceInfo
-import collection.JavaConversions._
+import net.unified.discovery.UmfServiceDiscoveryBuilder
+import net.unified.api.discovery.ServiceInfo
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,13 +12,11 @@ import collection.JavaConversions._
  */
 
 
-class ServiceDetailsHandler @Inject()(discovery: ServiceDiscovery[ServiceInfo]) {
+class ServiceDetailsHandler @Inject()(builder: UmfServiceDiscoveryBuilder) {
 
   def get(id: String): Option[ServiceInfo] = {
 
-    val cache = discovery.serviceCacheBuilder().name("umf-service").build()
-    cache.start()
-    val list = cache.getInstances
+    val list = builder.buildDiscovery().snapshot()
     val instance = list.find(_.getId == id)
     instance.map(_.getPayload)
   }
