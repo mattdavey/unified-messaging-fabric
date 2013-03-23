@@ -7,8 +7,9 @@
 define(['./features/nav/View',
     './features/services/View', './features/services/Collection',
     './features/prices/View', './collections/Subscriptions',
-    './features/service/View', './features/service/Model'],
-    function (NavView, ServicesView, ServicesCollection, SubscriptionsView, SubscriptionsCollection, ServiceView, ServiceModel) {
+    './features/service/View', './features/service/Model',
+    './features/orders/View'],
+    function (NavView, ServicesView, ServicesCollection, SubscriptionsView, SubscriptionsCollection, ServiceView, ServiceModel, OrdersView) {
 
         return Backbone.Router.extend({
 
@@ -18,7 +19,8 @@ define(['./features/nav/View',
                 "": "services",
                 "services(/)": "services",
                 "prices(/)": "prices",
-                "services/:id(/)": "service"
+                "services/:id(/)": "service",
+                "orders(/)": "orders"
             },
 
             _services: new ServicesCollection(),
@@ -31,13 +33,17 @@ define(['./features/nav/View',
 
                 var collection = new SubscriptionsCollection();
                 collection.fetch();
-                this._show("subscriptions", SubscriptionsView, {collection: collection});
+                this._show("prices", SubscriptionsView, {collection: collection});
             },
 
             service: function (id) {
                 var model = new ServiceModel({id: id});
                 model.fetch();
                 this._show("services", ServiceView, {model: model});
+            },
+
+            orders: function () {
+                this._show("orders", OrdersView, {});
             },
 
             _show: function (page, View, options) {
